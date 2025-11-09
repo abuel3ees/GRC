@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 
 // === Admin Controllers ===
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PoliciesController;
 use App\Http\Controllers\Admin\RisksController;
 use App\Http\Controllers\Admin\ControlsController;
@@ -24,7 +24,6 @@ use App\Http\Controllers\Admin\RiskControlsController;
 | 🌐 Public Routes
 |--------------------------------------------------------------------------
 */
-
 Route::view('/', 'welcome')->name('home');
 Route::view('/solutions', 'pages.solutions')->name('solutions');
 Route::view('/platform', 'pages.platform')->name('platform');
@@ -33,11 +32,10 @@ Route::view('/company', 'pages.company')->name('company');
 
 /*
 |--------------------------------------------------------------------------
-| 🔐 Authenticated Routes (Default Breeze)
+| 🔐 Authenticated User Routes
 |--------------------------------------------------------------------------
 */
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -45,23 +43,21 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| 🧑‍💼 Admin Dashboard Routes (Protected by Role)
+| 🧑‍💼 Admin Routes — Protected by Spatie Role Middleware
 |--------------------------------------------------------------------------
 |
-| These routes are restricted to authenticated, verified users
-| who have the "Admin" role via Spatie Laravel Permission.
+| Only users with the "Admin" role (via Spatie) can access these.
+| Example: $user->assignRole('Admin');
 |
 */
-
 Route::middleware(['auth', 'verified', 'role:Admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Core Resources
-        Route::resource('users', UsersController::class);
+        // === Core GRC Modules ===
+        Route::resource('users', UserController::class);
         Route::resource('policies', PoliciesController::class);
         Route::resource('risks', RisksController::class);
         Route::resource('controls', ControlsController::class);
@@ -69,18 +65,37 @@ Route::middleware(['auth', 'verified', 'role:Admin'])
         Route::resource('frameworks', ComplianceFrameworksController::class);
         Route::resource('assessments', AssessmentController::class);
         Route::resource('assessment-results', AssessmentResultController::class);
-        Route::resource('compliance-requirements', ComplianceRequirementController::class);
+        Route::resource('requirements', ComplianceRequirementController::class);
         Route::resource('risk-controls', RiskControlsController::class);
         Route::resource('roles', RolesController::class);
-
-        // Single-page sections
+        // === Analytics & Settings ===
         Route::resource('analytics', AnalyticsController::class)->only(['index']);
-        Route::resource('settings', SettingsController::class)->only(['index', 'update']);
-    });
+
+        Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::put('/settings/update', [SettingsController::class, 'update'])->name('settings.update');    
+});
 
 /*
 |--------------------------------------------------------------------------
-| 🚪 Authentication Scaffolding (Laravel Breeze)
+| 🧭 (Optional) Manager Routes
+|--------------------------------------------------------------------------
+|
+| Example for another role-based section.
+| Users with the "Manager" role only.
+|
+| Route::middleware(['auth', 'verified', 'role:Manager'])
+|     ->prefix('manager')
+|     ->name('manager.')
+|     ->group(function () {
+|         Route::get('/dashboard', [ManagerDashboardController::class, 'index'])
+|             ->name('dashboard');
+|     });
+|
+*/
+
+/*
+|--------------------------------------------------------------------------
+| 🚪 Auth Scaffolding (Breeze)
 |--------------------------------------------------------------------------
 */
 require __DIR__.'/auth.php';

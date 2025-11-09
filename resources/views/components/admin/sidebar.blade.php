@@ -49,7 +49,7 @@
 
                         // === Relation Tables ===
                         ['route' => 'admin.risk-controls.index', 'label' => 'Risk–Control Mapping', 'icon' => 'link'],
-                        ['route' => 'admin.compliance-requirements.index', 'label' => 'Compliance Requirements', 'icon' => 'check-circle-2'],
+                        ['route' => 'admin.requirements.index', 'label' => 'Compliance Requirements', 'icon' => 'check-circle-2'],
 
                         // === Governance & Users ===
                         ['route' => 'admin.users.index', 'label' => 'Users', 'icon' => 'users'],

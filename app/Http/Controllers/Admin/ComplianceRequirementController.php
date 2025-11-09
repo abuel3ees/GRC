@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ComplianceRequirement;
-use App\Models\ComplianceFramework;
+use App\Models\ComplianceFrameworks;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Spatie\QueryBuilder\QueryBuilder;
-
+use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Support\Facades\View;
 class ComplianceRequirementController extends Controller
 {
     /**
@@ -33,7 +34,7 @@ class ComplianceRequirementController extends Controller
      */
     public function create()
     {
-        $frameworks = ComplianceFramework::select('id', 'name')->get();
+        $frameworks = ComplianceFrameworks::select('id')->get();
 
         return view('admin.requirements.create', compact('frameworks'));
     }

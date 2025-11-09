@@ -55,7 +55,7 @@ class AssessmentController extends Controller
             'owner'       => ['nullable', 'string', 'max:255'],
         ]);
 
-        Assessment::create($validated);
+        Assessments::create($validated);
 
         return redirect()
             ->route('admin.assessments.index')
@@ -65,7 +65,7 @@ class AssessmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Assessment $assessment)
+    public function show(Assessments $assessment)
     {
         return view('admin.assessments.show', compact('assessment'));
     }
@@ -73,7 +73,7 @@ class AssessmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Assessment $assessment)
+    public function edit(Assessments $assessment)
     {
         return view('admin.assessments.edit', compact('assessment'));
     }
@@ -81,7 +81,7 @@ class AssessmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Assessment $assessment)
+    public function update(Request $request, Assessments $assessment)
     {
         $validated = $request->validate([
             'title'       => ['required', 'string', 'max:255'],
@@ -100,7 +100,7 @@ class AssessmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Assessment $assessment)
+    public function destroy(Assessments $assessment)
     {
         $assessment->delete();
 

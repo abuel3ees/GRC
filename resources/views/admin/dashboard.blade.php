@@ -7,53 +7,62 @@
 
     <title>@yield('title', 'Admin Dashboard') — GRC Platform</title>
 
-    <!-- Fonts -->
+    <!-- ===== Fonts ===== -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Vite Assets -->
+    <!-- ===== AOS (Animate On Scroll) CSS ===== -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <!-- ===== Vite Assets ===== -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- Chart.js --}}
+    <!-- ===== Chart.js ===== -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body class="font-sans antialiased bg-background text-foreground">
-<div class="flex h-screen overflow-hidden">
+<body class="font-sans antialiased bg-background text-foreground"
+      data-aos-easing="ease-in-out"
+      data-aos-duration="700"
+      data-aos-offset="50"
+      data-aos-once="true">
+
+<div class="flex h-screen overflow-hidden" data-aos="fade-up">
 
     {{-- ===== Sidebar ===== --}}
     @include('components.admin.sidebar')
 
     {{-- ===== Main Content ===== --}}
-    <div class="flex flex-1 flex-col overflow-hidden">
+    <div class="flex flex-1 flex-col overflow-hidden" data-aos="fade-up">
 
         {{-- ===== Header ===== --}}
         @include('components.admin.header')
 
         {{-- ===== Page Content ===== --}}
-        <main class="flex-1 overflow-y-auto p-8 space-y-10">
+        <main class="flex-1 overflow-y-auto p-8 space-y-10" data-aos="fade-up">
+
             {{-- ===== KPI CARDS ===== --}}
-            <section>
+            <section data-aos="fade-up">
                 <h2 class="text-lg font-semibold mb-4">Key Metrics</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-card border border-border rounded-xl p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up">
+                    <div class="bg-card border border-border rounded-xl p-6" data-aos="zoom-in" data-aos-delay="50">
                         <h3 class="text-sm text-muted-foreground mb-2">Active Risks</h3>
                         <p class="text-3xl font-bold text-foreground">{{ $metrics['activeRisks'] ?? 0 }}</p>
                         <p class="text-xs text-muted-foreground mt-1">↑ 6% from last month</p>
                     </div>
 
-                    <div class="bg-card border border-border rounded-xl p-6">
+                    <div class="bg-card border border-border rounded-xl p-6" data-aos="zoom-in" data-aos-delay="100" data-aos="fade-up">
                         <h3 class="text-sm text-muted-foreground mb-2">Open Assessments</h3>
                         <p class="text-3xl font-bold text-foreground">{{ $metrics['openAssessments'] ?? 0 }}</p>
                         <p class="text-xs text-muted-foreground mt-1">↓ 4% from last week</p>
                     </div>
 
-                    <div class="bg-card border border-border rounded-xl p-6">
+                    <div class="bg-card border border-border rounded-xl p-6" data-aos="fade-up">
                         <h3 class="text-sm text-muted-foreground mb-2">Controls Implemented</h3>
                         <p class="text-3xl font-bold text-foreground">{{ $metrics['controlsCoverage'] ?? 0 }}%</p>
                         <p class="text-xs text-muted-foreground mt-1">Coverage rate</p>
                     </div>
 
-                    <div class="bg-card border border-border rounded-xl p-6">
+                    <div class="bg-card border border-border rounded-xl p-6" data-aos="fade-up">
                         <h3 class="text-sm text-muted-foreground mb-2">Compliance Score</h3>
                         <p class="text-3xl font-bold text-foreground">{{ number_format($metrics['complianceScore'] ?? 0, 1) }}%</p>
                         <p class="text-xs text-muted-foreground mt-1">Audit-ready status</p>
@@ -62,25 +71,23 @@
             </section>
 
             {{-- ===== RISK HEATMAP ===== --}}
-            <section>
+            <section data-aos="fade-up" data-aos-delay="100">
                 <h2 class="text-lg font-semibold mb-4">Risk Heatmap</h2>
-                <div class="bg-card border border-border rounded-xl p-6">
+                <div class="bg-card border border-border rounded-xl p-6" data-aos="fade-up">
                     <canvas id="riskHeatmap" class="w-full h-80"></canvas>
                 </div>
             </section>
 
             {{-- ===== ANALYTICS ===== --}}
-            <section>
+            <section data-aos="fade-up" data-aos-delay="150">
                 <h2 class="text-lg font-semibold mb-4">Analytical Insights</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {{-- Compliance Trend --}}
-                    <div class="bg-card border border-border rounded-xl p-6">
+                    <div class="bg-card border border-border rounded-xl p-6" data-aos="fade-up">
                         <h3 class="text-md font-semibold mb-4">Compliance Trend</h3>
                         <canvas id="complianceTrend"></canvas>
                     </div>
 
-                    {{-- Assessment Status --}}
-                    <div class="bg-card border border-border rounded-xl p-6">
+                    <div class="bg-card border border-border rounded-xl p-6" data-aos="fade-up">
                         <h3 class="text-md font-semibold mb-4">Assessment Status</h3>
                         <canvas id="assessmentStatus"></canvas>
                     </div>
@@ -88,9 +95,9 @@
             </section>
 
             {{-- ===== RECENT ACTIVITY ===== --}}
-            <section>
+            <section data-aos="fade-up">
                 <h2 class="text-lg font-semibold mb-4">Recent Activity</h2>
-                <div class="bg-card border border-border rounded-xl p-6 overflow-x-auto">
+                <div class="bg-card border border-border rounded-xl p-6 overflow-x-auto" data-aos="fade-up">
                     <table class="min-w-full text-sm">
                         <thead class="text-muted-foreground border-b border-border">
                         <tr>
@@ -102,7 +109,7 @@
                         </thead>
                         <tbody class="divide-y divide-border">
                         @forelse($activity as $log)
-                            <tr>
+                            <tr data-aos="fade-up">
                                 <td class="py-2">{{ $log->event }}</td>
                                 <td class="py-2">{{ $log->entity }}</td>
                                 <td class="py-2">{{ $log->user }}</td>
@@ -121,16 +128,26 @@
             </section>
 
             {{-- ===== FOOTER ===== --}}
-            <footer class="text-center text-sm text-muted-foreground mt-10">
+            <footer class="text-center text-sm text-muted-foreground mt-10" data-aos="fade-up">
                 © {{ now()->year }} GRC Platform — Enterprise Governance, Risk & Compliance Analytics.
             </footer>
         </main>
     </div>
 </div>
 
-{{-- ====== CHARTS (REAL DATA) ====== --}}
+{{-- ====== AOS & CHART INITIALIZATION ====== --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // Initialize AOS Animations
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        offset: 80,
+    });
+
+    // === CHART DATA ===
     const heatmapData = @json($heatmap);
     const trendData = @json($trend);
     const statusData = @json($status);

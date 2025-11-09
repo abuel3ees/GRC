@@ -3,10 +3,10 @@
 @section('title', 'Edit Policy — ' . $policy->title)
 
 @section('content')
-<div class="p-6 space-y-6">
+<div class="p-6 space-y-6" data-aos="fade-up" data-aos-delay="0">
     {{-- ===== Header ===== --}}
     <div class="flex justify-between items-center mb-4" data-aos="fade-up">
-        <div>
+        <div data-aos="fade-up" data-aos-delay="0">
             <h1 class="text-2xl font-bold text-foreground">Edit Policy</h1>
             <p class="text-muted-foreground text-sm">Update policy information and status</p>
         </div>
@@ -20,7 +20,7 @@
         @method('PUT')
 
         {{-- Title --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="100">
             <label for="title" class="block text-sm font-medium text-foreground mb-1">Title</label>
             <input type="text" id="title" name="title" value="{{ old('title', $policy->title) }}"
                    required
@@ -29,7 +29,7 @@
         </div>
 
         {{-- Description --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="150">
             <label for="description" class="block text-sm font-medium text-foreground mb-1">Description</label>
             <textarea id="description" name="description" rows="4"
                       class="w-full bg-input border border-border text-foreground rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-ring/50 focus:border-ring/50 transition">{{ old('description', $policy->description) }}</textarea>
@@ -37,7 +37,7 @@
         </div>
 
         {{-- Category --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="200">
             <label for="category" class="block text-sm font-medium text-foreground mb-1">Category</label>
             <input type="text" id="category" name="category" value="{{ old('category', $policy->category) }}"
                    required
@@ -46,7 +46,7 @@
         </div>
 
         {{-- Status --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="250">
             <label for="status" class="block text-sm font-medium text-foreground mb-1">Status</label>
             <select id="status" name="status"
                     class="w-full bg-input border border-border text-foreground rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-ring/50 focus:border-ring/50 transition">
@@ -58,7 +58,7 @@
         </div>
 
         {{-- Submit --}}
-        <div class="pt-4">
+        <div class="pt-4" data-aos="fade-up" data-aos-delay="300">
             <button type="submit"
                 class="bg-foreground text-background px-6 py-2.5 rounded-md font-medium hover:opacity-90 transition">
                 Update Policy

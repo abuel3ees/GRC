@@ -14,7 +14,7 @@
                 </a>
             </div>
 
-            {{-- Navigation - Desktop --}}
+            {{-- ===== Navigation (Desktop) ===== --}}
             <nav class="hidden md:flex items-center gap-8">
                 <a href="{{ route('solutions') }}" class="text-sm font-medium hover:opacity-70 transition">Solutions</a>
                 <a href="{{ route('platform') }}" class="text-sm font-medium hover:opacity-70 transition">Platform</a>
@@ -22,10 +22,10 @@
                 <a href="{{ route('company') }}" class="text-sm font-medium hover:opacity-70 transition">Company</a>
             </nav>
 
-            {{-- ===== Conditional Auth Buttons ===== --}}
+            {{-- ===== Auth Buttons (Desktop) ===== --}}
             <div class="hidden md:flex items-center gap-4">
                 @guest
-                    {{-- Show Sign In / Get Started when user is not logged in --}}
+                    {{-- When user is NOT logged in --}}
                     <a href="{{ route('login') }}" 
                        class="px-6 py-2 text-sm font-medium border border-foreground hover:bg-foreground hover:text-background transition">
                         Sign In
@@ -37,22 +37,22 @@
                 @endguest
 
                 @auth
-                    {{-- Admin user: show dashboard + logout --}}
-                    @if(auth()->user()->role?->name === 'Admin')
+                    {{-- ✅ Spatie role check --}}
+                    @if(auth()->user()->hasRole('Admin'))
                         <a href="{{ route('admin.dashboard') }}" 
                            class="px-6 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition">
                             Admin Dashboard
                         </a>
+                    @else
+                        {{-- Regular user: show logout only --}}
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                    class="px-6 py-2 text-sm font-medium border border-foreground text-foreground hover:bg-foreground hover:text-background transition">
+                                Logout
+                            </button>
+                        </form>
                     @endif
-
-                    {{-- Logout Button --}}
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                                class="px-6 py-2 text-sm font-medium border border-foreground text-foreground hover:bg-foreground hover:text-background transition">
-                            Logout
-                        </button>
-                    </form>
                 @endauth
             </div>
 
@@ -63,7 +63,6 @@
                 aria-label="Toggle Menu"
             >
                 <template x-if="!isOpen">
-                    {{-- Menu Icon --}}
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="4" y1="6" x2="20" y2="6" />
                         <line x1="4" y1="12" x2="20" y2="12" />
@@ -71,7 +70,6 @@
                     </svg>
                 </template>
                 <template x-if="isOpen">
-                    {{-- Close Icon --}}
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18" />
                         <line x1="6" y1="6" x2="18" y2="18" />
@@ -91,7 +89,7 @@
             <a href="{{ route('resources') }}" class="block text-sm font-medium hover:opacity-70 py-2">Resources</a>
             <a href="{{ route('company') }}" class="block text-sm font-medium hover:opacity-70 py-2">Company</a>
 
-            {{-- Auth-based buttons for mobile --}}
+            {{-- ===== Auth Buttons (Mobile) ===== --}}
             <div class="pt-4 flex flex-col gap-3">
                 @guest
                     <a href="{{ route('login') }}" 
@@ -105,21 +103,20 @@
                 @endguest
 
                 @auth
-                    @if(auth()->user()->role?->name === 'Admin')
+                    @if(auth()->user()->hasRole('Admin'))
                         <a href="{{ route('admin.dashboard') }}" 
                            class="px-4 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition text-center">
-                            Dashboard
+                            Admin Dashboard
                         </a>
+                    @else
+                        <form method="POST" action="{{ route('logout') }}" class="text-center">
+                            @csrf
+                            <button type="submit"
+                                    class="w-full px-4 py-2 text-sm font-medium border border-foreground text-foreground hover:bg-foreground hover:text-background transition">
+                                Logout
+                            </button>
+                        </form>
                     @endif
-
-                    {{-- Logout button --}}
-                    <form method="POST" action="{{ route('logout') }}" class="text-center">
-                        @csrf
-                        <button type="submit"
-                                class="w-full px-4 py-2 text-sm font-medium border border-foreground text-foreground hover:bg-foreground hover:text-background transition">
-                            Logout
-                        </button>
-                    </form>
                 @endauth
             </div>
         </nav>

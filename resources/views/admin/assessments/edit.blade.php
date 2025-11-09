@@ -5,13 +5,13 @@
 @section('content')
 <div class="max-w-3xl mx-auto space-y-8">
     {{-- ===== Header ===== --}}
-    <div class="flex items-center justify-between" data-aos="fade-up">
+    <div class="flex items-center justify-between" data-aos="fade-up" data-aos-delay="0">
         <div>
             <h1 class="text-2xl font-bold text-foreground">Edit Assessment</h1>
             <p class="text-muted-foreground text-sm">Modify details of this existing assessment</p>
         </div>
 
-        <div class="flex gap-2">
+        <div class="flex gap-2" data-aos="fade-up" data-aos-delay="100">
             {{-- Back Button --}}
             <a href="{{ route('admin.assessments.show', $assessment) }}"
                class="px-4 py-2 border border-border text-sm rounded-md hover:bg-secondary transition">
@@ -20,7 +20,7 @@
 
             {{-- Delete Shortcut --}}
             <form action="{{ route('admin.assessments.destroy', $assessment) }}" method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this assessment?')">
+                  onsubmit="return confirm('Are you sure you want to delete this assessment?')" data-aos="fade-up" data-aos-delay="150">
                 @csrf
                 @method('DELETE')
                 <button type="submit"
@@ -34,12 +34,12 @@
     {{-- ===== Edit Form ===== --}}
     <form action="{{ route('admin.assessments.update', $assessment) }}" method="POST"
           class="bg-card border border-border rounded-xl p-8 shadow-sm space-y-6" 
-          data-aos="fade-up" data-aos-delay="100">
+          data-aos="fade-up" data-aos-delay="200">
         @csrf
         @method('PUT')
 
         {{-- Title --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="250">
             <label for="title" class="block text-sm font-medium text-foreground mb-1">Title <span class="text-destructive">*</span></label>
             <input type="text" id="title" name="title" 
                    value="{{ old('title', $assessment->title) }}" 
@@ -51,7 +51,7 @@
         </div>
 
         {{-- Description --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="300">
             <label for="description" class="block text-sm font-medium text-foreground mb-1">Description</label>
             <textarea id="description" name="description" rows="4"
                       class="w-full px-4 py-2 border border-border bg-input text-foreground rounded-md focus:ring-2 focus:ring-ring/50 focus:border-ring/50 transition"
@@ -62,7 +62,7 @@
         </div>
 
         {{-- Status --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="350">
             <label for="status" class="block text-sm font-medium text-foreground mb-1">Status</label>
             <select id="status" name="status" 
                     class="w-full px-4 py-2 border border-border bg-input text-foreground rounded-md focus:ring-2 focus:ring-ring/50 focus:border-ring/50 transition">
@@ -76,7 +76,7 @@
         </div>
 
         {{-- Owner --}}
-        <div>
+        <div data-aos="fade-up" data-aos-delay="400">
             <label for="owner" class="block text-sm font-medium text-foreground mb-1">Owner</label>
             <input type="text" id="owner" name="owner" 
                    value="{{ old('owner', $assessment->owner) }}" 
@@ -88,7 +88,7 @@
         </div>
 
         {{-- Submit Button --}}
-        <div class="pt-4 flex justify-end gap-3">
+        <div class="pt-4 flex justify-end gap-3" data-aos="fade-up" data-aos-delay="450">
             <a href="{{ route('admin.assessments.show', $assessment) }}"
                class="px-6 py-2 border border-border rounded-md text-sm hover:bg-secondary transition">
                Cancel
