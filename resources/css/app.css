@@ -40,6 +40,8 @@
   --sidebar-accent-foreground: oklch(0.125 0 0);
   --sidebar-border: oklch(0.92 0 0);
   --sidebar-ring: oklch(0.125 0 0);
+    --ring: oklch(0.45 0.05 250); /* soft bluish ring */
+
 }
 
 .dark {
@@ -75,6 +77,8 @@
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.25 0 0);
   --sidebar-ring: oklch(0.98 0 0);
+    --ring: oklch(0.75 0.1 250);
+
 }
 
 @theme inline {
@@ -120,8 +124,10 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    outline-color: hsl(var(--ring) / 0.5);
   }
+
   body {
     @apply bg-background text-foreground;
   }

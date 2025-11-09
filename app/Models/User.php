@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Role;    
 use App\Models\Policy;
 use App\Models\Risk;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
+use  HasFactory, Notifiable, HasRoles;
     /**
      * The attributes that are mass assignable.
      *

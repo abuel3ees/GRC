@@ -18,16 +18,11 @@ return new class extends Migration
     $table->text('description')->nullable();
     $table->foreignId('policy_id')->nullable()->constrained('policies')->onDelete('set null');
     $table->foreignId('owner_id')->nullable()->constrained('users')->onDelete('set null');
+    $table->enum('status', ['implemented', 'inactive', 'under_review'])->default('under_review');
     $table->softDeletes();
     $table->timestamps();
-        });
 
-        Schema::create('risk_controls', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('risk_id')->constrained('risks')->onDelete('cascade');
-    $table->foreignId('control_id')->constrained('controls')->onDelete('cascade');
-    $table->timestamps();
-});
+        });
     }
 
     /**

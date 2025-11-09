@@ -16,25 +16,47 @@
 
             {{-- Navigation - Desktop --}}
             <nav class="hidden md:flex items-center gap-8">
-                <a href="#" class="text-sm font-medium hover:opacity-70 transition">Solutions</a>
-                <a href="#" class="text-sm font-medium hover:opacity-70 transition">Platform</a>
-                <a href="#" class="text-sm font-medium hover:opacity-70 transition">Resources</a>
-                <a href="#" class="text-sm font-medium hover:opacity-70 transition">Company</a>
+                <a href="{{ route('solutions') }}" class="text-sm font-medium hover:opacity-70 transition">Solutions</a>
+                <a href="{{ route('platform') }}" class="text-sm font-medium hover:opacity-70 transition">Platform</a>
+                <a href="{{ route('resources') }}" class="text-sm font-medium hover:opacity-70 transition">Resources</a>
+                <a href="{{ route('company') }}" class="text-sm font-medium hover:opacity-70 transition">Company</a>
             </nav>
 
-            {{-- CTA Buttons - Desktop --}}
+            {{-- ===== Conditional Auth Buttons ===== --}}
             <div class="hidden md:flex items-center gap-4">
-                <a href="#" 
-                   class="px-6 py-2 text-sm font-medium border border-foreground hover:bg-foreground hover:text-background transition">
-                    Sign In
-                </a>
-                <a href="#" 
-                   class="px-6 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition">
-                    Get Started
-                </a>
+                @guest
+                    {{-- Show Sign In / Get Started when user is not logged in --}}
+                    <a href="{{ route('login') }}" 
+                       class="px-6 py-2 text-sm font-medium border border-foreground hover:bg-foreground hover:text-background transition">
+                        Sign In
+                    </a>
+                    <a href="{{ route('register') }}" 
+                       class="px-6 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition">
+                        Get Started
+                    </a>
+                @endguest
+
+                @auth
+                    {{-- Admin user: show dashboard + logout --}}
+                    @if(auth()->user()->role?->name === 'Admin')
+                        <a href="{{ route('admin.dashboard') }}" 
+                           class="px-6 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition">
+                            Admin Dashboard
+                        </a>
+                    @endif
+
+                    {{-- Logout Button --}}
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                                class="px-6 py-2 text-sm font-medium border border-foreground text-foreground hover:bg-foreground hover:text-background transition">
+                            Logout
+                        </button>
+                    </form>
+                @endauth
             </div>
 
-            {{-- Mobile Menu Button --}}
+            {{-- ===== Mobile Menu Button ===== --}}
             <button 
                 class="md:hidden text-foreground focus:outline-none" 
                 @click="isOpen = !isOpen"
@@ -64,20 +86,41 @@
             x-transition 
             class="md:hidden pb-4 space-y-3"
         >
-            <a href="#" class="block text-sm font-medium hover:opacity-70 py-2">Solutions</a>
-            <a href="#" class="block text-sm font-medium hover:opacity-70 py-2">Platform</a>
-            <a href="#" class="block text-sm font-medium hover:opacity-70 py-2">Resources</a>
-            <a href="#" class="block text-sm font-medium hover:opacity-70 py-2">Company</a>
+            <a href="{{ route('solutions') }}" class="block text-sm font-medium hover:opacity-70 py-2">Solutions</a>
+            <a href="{{ route('platform') }}" class="block text-sm font-medium hover:opacity-70 py-2">Platform</a>
+            <a href="{{ route('resources') }}" class="block text-sm font-medium hover:opacity-70 py-2">Resources</a>
+            <a href="{{ route('company') }}" class="block text-sm font-medium hover:opacity-70 py-2">Company</a>
 
-            <div class="pt-4 flex gap-3">
-                <a href="#" 
-                   class="flex-1 px-4 py-2 text-sm font-medium border border-foreground hover:bg-foreground hover:text-background transition text-center">
-                    Sign In
-                </a>
-                <a href="#" 
-                   class="flex-1 px-4 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition text-center">
-                    Get Started
-                </a>
+            {{-- Auth-based buttons for mobile --}}
+            <div class="pt-4 flex flex-col gap-3">
+                @guest
+                    <a href="{{ route('login') }}" 
+                       class="px-4 py-2 text-sm font-medium border border-foreground hover:bg-foreground hover:text-background transition text-center">
+                        Sign In
+                    </a>
+                    <a href="{{ route('register') }}" 
+                       class="px-4 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition text-center">
+                        Get Started
+                    </a>
+                @endguest
+
+                @auth
+                    @if(auth()->user()->role?->name === 'Admin')
+                        <a href="{{ route('admin.dashboard') }}" 
+                           class="px-4 py-2 text-sm font-medium bg-foreground text-background hover:opacity-90 transition text-center">
+                            Dashboard
+                        </a>
+                    @endif
+
+                    {{-- Logout button --}}
+                    <form method="POST" action="{{ route('logout') }}" class="text-center">
+                        @csrf
+                        <button type="submit"
+                                class="w-full px-4 py-2 text-sm font-medium border border-foreground text-foreground hover:bg-foreground hover:text-background transition">
+                            Logout
+                        </button>
+                    </form>
+                @endauth
             </div>
         </nav>
     </div>

@@ -15,12 +15,37 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        background: "var(--background)",
+  foreground: "var(--foreground)",
+
+  primary: "var(--primary)",
+  'primary-foreground': "var(--primary-foreground)",
+
+  secondary: "var(--secondary)",
+  'secondary-foreground': "var(--secondary-foreground)",
+
+  accent: "var(--accent)",
+  'accent-foreground': "var(--accent-foreground)",
+
+  border: "var(--border)",
+  input: "var(--input)",
+
+  ring: "var(--ring)",  // ✅ defines ring color so outline-ring works
         primary: "var(--primary)",
         'primary-foreground': "var(--primary-foreground)",
+
         secondary: "var(--secondary)",
         'secondary-foreground': "var(--secondary-foreground)",
+
         accent: "var(--accent)",
         'accent-foreground': "var(--accent-foreground)",
+
+        border: "var(--border)",
+        input: "var(--input)",
+        ring: "var(--ring)",
+      },
+      borderColor: {
+        DEFAULT: "var(--border)",
       },
       borderRadius: {
         sm: "calc(var(--radius) - 4px)",

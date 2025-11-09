@@ -18,6 +18,7 @@ return new class extends Migration
     $table->date('assessment_date');
     $table->enum('status', ['Planned', 'Ongoing', 'Completed'])->default('Planned');
     $table->text('summary')->nullable();
+    $table->integer('score')->nullable();
     $table->softDeletes();
     $table->timestamps();
         });

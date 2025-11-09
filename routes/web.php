@@ -1,20 +1,23 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\PolicyController;
-use App\Http\Controllers\Admin\RiskController;
-use App\Http\Controllers\Admin\ControlController;
-use App\Http\Controllers\Admin\MitigationController;
-use App\Http\Controllers\Admin\ComplianceFrameworkController;
-use App\Http\Controllers\Admin\AssessmentController;
-use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+
+// === Admin Controllers ===
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\PoliciesController;
 use App\Http\Controllers\Admin\RisksController;
 use App\Http\Controllers\Admin\ControlsController;
 use App\Http\Controllers\Admin\MitigationsController;
 use App\Http\Controllers\Admin\ComplianceFrameworksController;
-use App\Http\Controllers\Admin\AssessmentsController;
+use App\Http\Controllers\Admin\AssessmentController;
+use App\Http\Controllers\Admin\AssessmentResultController;
+use App\Http\Controllers\Admin\ComplianceRequirementController;
+use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\RiskControlsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +25,11 @@ use App\Http\Controllers\Admin\AssessmentsController;
 |--------------------------------------------------------------------------
 */
 
-// Landing Page (Your GRC “welcome” page)
-Route::view('/', 'home')->name('home');
-// If your main file is still named welcome.blade.php, use: return view('welcome');
-
+Route::view('/', 'welcome')->name('home');
+Route::view('/solutions', 'pages.solutions')->name('solutions');
+Route::view('/platform', 'pages.platform')->name('platform');
+Route::view('/resources', 'pages.resources')->name('resources');
+Route::view('/company', 'pages.company')->name('company');
 
 /*
 |--------------------------------------------------------------------------
@@ -33,46 +37,50 @@ Route::view('/', 'home')->name('home');
 |--------------------------------------------------------------------------
 */
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 /*
 |--------------------------------------------------------------------------
-| 🧑‍💼 Admin Dashboard Routes (Protected)
+| 🧑‍💼 Admin Dashboard Routes (Protected by Role)
 |--------------------------------------------------------------------------
 |
-| All CRUD pages for your GRC entities live here. 
-| Requires authentication & email verification.
+| These routes are restricted to authenticated, verified users
+| who have the "Admin" role via Spatie Laravel Permission.
 |
 */
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:Admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        // Dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Admin landing page
-    Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        // Core Resources
+        Route::resource('users', UsersController::class);
+        Route::resource('policies', PoliciesController::class);
+        Route::resource('risks', RisksController::class);
+        Route::resource('controls', ControlsController::class);
+        Route::resource('mitigations', MitigationsController::class);
+        Route::resource('frameworks', ComplianceFrameworksController::class);
+        Route::resource('assessments', AssessmentController::class);
+        Route::resource('assessment-results', AssessmentResultController::class);
+        Route::resource('compliance-requirements', ComplianceRequirementController::class);
+        Route::resource('risk-controls', RiskControlsController::class);
+        Route::resource('roles', RolesController::class);
 
-    // CRUD routes for each module
-    Route::resource('users', UserController::class);
-    Route::resource('policies', PoliciesController::class);
-    Route::resource('risks', RisksController::class);
-    Route::resource('controls', ControlsController::class);
-    Route::resource('mitigations', MitigationsController::class);
-    Route::resource('frameworks', ComplianceFrameworksController::class);
-    Route::resource('assessments', AssessmentsController::class);
-});
-
+        // Single-page sections
+        Route::resource('analytics', AnalyticsController::class)->only(['index']);
+        Route::resource('settings', SettingsController::class)->only(['index', 'update']);
+    });
 
 /*
 |--------------------------------------------------------------------------
-| 🚪 Auth Scaffolding (Breeze)
+| 🚪 Authentication Scaffolding (Laravel Breeze)
 |--------------------------------------------------------------------------
 */
 require __DIR__.'/auth.php';
