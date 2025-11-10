@@ -1,59 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🧭 GRC Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern **Governance, Risk & Compliance (GRC)** management platform built with **Laravel 12**, **TailwindCSS**, and **Vite**.  
+It provides dynamic dashboards, assessment modules, and analytics tools to help organizations manage risk, ensure compliance, and monitor performance — all in one unified platform.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🔐 Core System
+- **Authentication & Authorization** via Laravel Breeze / Jetstream  
+- **Role-based Access Control (RBAC)** (Admin, Manager, User)  
+- **Spatie Query Builder** integration for flexible API filtering and sorting  
+- **CSRF-protected forms**, secure session handling, and user management  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 📊 Admin Dashboard
+- Clean, responsive **dark theme** with orange accent (`#FF7500`)  
+- Dynamic widgets for:
+  - Total assessments
+  - Active users
+  - Compliance overview  
+- Interactive sidebar with icons and active link highlighting  
 
-## Learning Laravel
+### 🧩 Assessments Module
+- Create, view, and manage compliance assessments  
+- Advanced filtering and searching powered by **Spatie QueryBuilder**  
+- Export data to **Excel / CSV** with Laravel Excel  
+- Validation and secure file handling  
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 🗂️ Articles & Resources
+- CMS-style article management with timestamps and CKEditor  
+- Pagination, sorting, and soft deletion support  
+- File upload system integrated with the `media` table  
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### ⚙️ Additional Features
+- Dynamic Blade layout using Tailwind and Alpine.js  
+- Responsive design (desktop + mobile friendly)  
+- Live Chatbot integration (ChatGPT API)  
+- Import/Export tools for Excel  
+- Modular routing (Admin / Client separation)  
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🧱 Tech Stack
 
-### Premium Partners
+| Layer | Technologies |
+|-------|---------------|
+| **Backend** | Laravel 12 (PHP 8.3), Spatie QueryBuilder |
+| **Frontend** | TailwindCSS, Alpine.js, Blade Templates |
+| **Database** | MySQL / PostgreSQL |
+| **Utilities** | Vite, Laravel Excel, CKEditor |
+| **Authentication** | Laravel Breeze / Sanctum |
+| **Deployment** | DigitalOcean / Laravel Forge compatible |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## ⚡ Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Clone the repository
+```bash
+git clone https://github.com/abuel3ees/GRC.git
+cd GRC
+```
+### 2. Install Dependencies
+```bash
+composer install
+npm installcp
+```
+### 3. Configure environment
+```bash
+.env.example .env
+```
+Then edit your .env file
+```bash
+APP_NAME=GRC
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost
 
-## Code of Conduct
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=grc_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+### 4. Generate app key
+```bash
+php artisan key:generate
+php artisan migrate --seed
+```
+### 5. Build and serve the app
+```bash
+npm run dev
+php artisan serve
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
