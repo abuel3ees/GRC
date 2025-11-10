@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\RiskControlsController;
+use App\Http\Controllers\Admin\CyberRiskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])
         Route::resource('requirements', ComplianceRequirementController::class);
         Route::resource('risk-controls', RiskControlsController::class);
         Route::resource('roles', RolesController::class);
+        Route::resource('cyberrisks', CyberRiskController::class);
         // === Analytics & Settings ===
         Route::resource('analytics', AnalyticsController::class)->only(['index']);
 

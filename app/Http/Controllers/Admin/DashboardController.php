@@ -2,54 +2,54 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\CyberRisk;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Risks;
-use App\Models\Assessments;
-use App\Models\Controls;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        // === KPI METRICS ===
-        $metrics = [
-            'activeRisks' => Risks::where('status', 'active')->count(),
-            'openAssessments' => Assessments::where('status', 'open')->count(),
-            'controlsCoverage' => round(Controls::where('status', 'implemented')->count() / max(Controls::count(), 1) * 100, 1),
-            'complianceScore' => DB::table('assessments')->avg('score') ?? 0,
+       public function index()
+{
+    // === Fetch Cyber Risks for Scatter Plot ===
+    $heatmap = CyberRisk::select('impact', 'likelihood', 'title', 'code', 'residual_level')
+        ->get()
+        ->map(fn($r) => [
+            'x' => (int)$r->impact,
+            'y' => (int)$r->likelihood,
+            'label' => "{$r->code} - {$r->title}",
+            'residual_level' => $r->residual_level,
+        ]);
+
+
+        // === 2️⃣ Compliance trend dummy (replace later if you have audits table) ===
+        $trend = collect([
+            ['month' => 'Jan', 'avg_score' => 70],
+            ['month' => 'Feb', 'avg_score' => 75],
+            ['month' => 'Mar', 'avg_score' => 80],
+            ['month' => 'Apr', 'avg_score' => 82],
+            ['month' => 'May', 'avg_score' => 85],
+        ]);
+
+        // === 3️⃣ Assessment status dummy ===
+        $status = [
+            'Open' => 8,
+            'In Progress' => 4,
+            'Mitigated' => 6,
+            'Closed' => 2,
         ];
 
-        // === Risk Heatmap (impact vs likelihood) ===
-        $heatmap = Risks::select('impact', 'likelihood', DB::raw('COUNT(*) as count'))
-            ->groupBy('impact', 'likelihood')
-            ->get()
-            ->map(fn($r) => [
-                'x' => $r->impact,
-                'y' => $r->likelihood,
-                'v' => $r->count,
-            ]);
+        // === 4️⃣ KPIs ===
+        $metrics = [
+            'activeRisks' => CyberRisk::count(),
+            'openAssessments' => 10, // placeholder
+            'controlsCoverage' => 76, // placeholder %
+            'complianceScore' => 84.3, // placeholder %
+        ];
 
-        // === Compliance Trend (last 6 months average score) ===
-        $trend = DB::table('assessments')
-            ->selectRaw('DATE_FORMAT(created_at, "%b") as month, AVG(score) as avg_score')
-            ->where('created_at', '>=', now()->subMonths(6))
-            ->groupBy('month')
-            ->orderByRaw('MIN(created_at)')
-            ->get();
+        // === 5️⃣ Activity logs optional ===
+        $activity = collect([]);
 
-        // === Assessment Status Distribution ===
-        $status = Assessments::select('status', DB::raw('COUNT(*) as total'))
-            ->groupBy('status')
-            ->pluck('total', 'status');
-
-        // === Recent Activity ===
-        $activity = DB::table('activity_logs')
-            ->select('event', 'entity', 'user', 'created_at')
-            ->latest()
-            ->limit(5)
-            ->get();
-
-        return view('admin.dashboard', compact('metrics', 'heatmap', 'trend', 'status', 'activity'));
+        return view('admin.dashboard', compact('heatmap', 'trend', 'status', 'metrics', 'activity'));
     }
 }

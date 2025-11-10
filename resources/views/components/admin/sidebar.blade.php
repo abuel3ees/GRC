@@ -39,7 +39,7 @@
                 @php
                     $links = [
                         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'layout-dashboard'],
-
+                        ['route' => 'admin.cyberrisks.index', 'label' => 'Cyber Risks', 'icon' => 'shield-alert'],
                         // === Core GRC Entities ===
                         ['route' => 'admin.assessments.index', 'label' => 'Assessments', 'icon' => 'clipboard-check'],
                         ['route' => 'admin.assessment-results.index', 'label' => 'Assessment Results', 'icon' => 'list-check'],
