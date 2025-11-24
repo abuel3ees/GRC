@@ -64,11 +64,11 @@ cd GRC
 ### 2. Install Dependencies
 ```bash
 composer install
-npm installcp
+npm install
 ```
 ### 3. Configure environment
 ```bash
-.env.example .env
+cp .env.example .env
 ```
 Then edit your .env file
 ```bash
@@ -88,6 +88,7 @@ DB_PASSWORD=
 ```bash
 php artisan key:generate
 php artisan migrate --seed
+php artisan db:seed --class=CyberRiskSeeder
 ```
 ### 5. Build and serve the app
 ```bash
